@@ -1,15 +1,22 @@
 import React from "react";
 
-/**
- * Wallet component
- * @param {object} props
- * @param {number} props.balance - The user's current wallet balance. Defaults to 0.
- * @param {Array<object>} props.transactions - An array of transaction objects. Defaults to an empty array.
- * @param {string} props.transactions[].date - The date of the transaction (e.g., "2025-11-04").
- * @param {string} props.transactions[].description - A brief description of the transaction.
- * @param {number} props.transactions[].amount - The transaction amount (positive for income, negative for expenses).
- */
-export default function Wallet({ balance = 0, transactions = [] }) {
+// Define the transaction type
+interface Transaction {
+  date: string;
+  description: string;
+  amount: number;
+}
+
+// Define the props type for Wallet
+interface WalletProps {
+  balance?: number;
+  transactions?: Transaction[];
+}
+
+const Wallet: React.FC<WalletProps> = ({
+  balance = 0,
+  transactions = [],
+}) => {
   return (
     <div
       style={{
@@ -25,24 +32,23 @@ export default function Wallet({ balance = 0, transactions = [] }) {
     >
       {/* --- Back Button Added --- */}
       <button
+        onClick={() => window.history.back()}
         style={{
           background: "none",
           border: "none",
           cursor: "pointer",
           fontSize: "1rem",
-          color: "#4F46E5", // Using the button purple for consistency
+          color: "#4F46E5",
           fontWeight: 600,
           display: "flex",
           alignItems: "center",
           marginBottom: "1rem",
           padding: 0,
         }}
-        // You can add an onClick handler here, e.g.,
-        // onClick={() => window.history.back()}
       >
         <span style={{ marginRight: "0.25rem", fontSize: "1.25rem" }}>
           &larr;
-        </span>{" "}
+        </span>
         Back
       </button>
 
@@ -67,7 +73,6 @@ export default function Wallet({ balance = 0, transactions = [] }) {
             marginBottom: "1.5rem",
           }}
         >
-          {/* --- Mock Value Removed --- */}
           ${balance.toFixed(2)}
         </h2>
         <button
@@ -86,7 +91,6 @@ export default function Wallet({ balance = 0, transactions = [] }) {
         </button>
       </div>
 
-      {/* Divider */}
       <hr
         style={{
           border: "none",
@@ -125,7 +129,6 @@ export default function Wallet({ balance = 0, transactions = [] }) {
             </tr>
           </thead>
           <tbody>
-            {/* --- Mock Values Removed --- */}
             {transactions.length > 0 ? (
               transactions.map((tx, index) => (
                 <tr key={index} style={{ borderBottom: "1px solid #E5E7EB" }}>
@@ -139,17 +142,14 @@ export default function Wallet({ balance = 0, transactions = [] }) {
                       fontWeight: 600,
                     }}
                   >
-                    {/* Dynamically adds '+' or '-' sign */}
-                    {tx.amount < 0 ? "-" : "+"}$
-                    {Math.abs(tx.amount).toFixed(2)}
+                    {tx.amount < 0 ? "-" : "+"}${Math.abs(tx.amount).toFixed(2)}
                   </td>
                 </tr>
               ))
             ) : (
-              // Placeholder when no transactions are provided
               <tr>
                 <td
-                  colSpan="3"
+                  colSpan={3}
                   style={{
                     padding: "1.5rem 0",
                     textAlign: "center",
@@ -165,4 +165,6 @@ export default function Wallet({ balance = 0, transactions = [] }) {
       </div>
     </div>
   );
-}
+};
+
+export default Wallet;
