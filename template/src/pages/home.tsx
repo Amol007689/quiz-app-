@@ -55,7 +55,7 @@ export default function Home() {
   const navLinks = [
     { name: 'Home', href: '#' },
     { name: 'Exams', href: '#' },
-    { name: 'Contests', href: '#' },
+    { name: 'Contests', href: '/contests' },
     { name: 'Pricing', href: '#' },
     { name: 'Wallet', href: '#' },
   ];
